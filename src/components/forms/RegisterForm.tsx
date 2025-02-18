@@ -13,15 +13,58 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useRegisterForm } from "@/hooks/auth/useRegisterForm";
 
-export function RegisterForm() {
-  const form = useRegisterForm();
+import axios from "axios";
+import { useToast } from "@/hooks/use-toast";
 
-  const onSubmit = (dataForm: {
+export function RegisterForm() {
+  const { toast } = useToast();
+  const form = useRegisterForm();
+  // const { data, error, isLoading, mutate } = useSWR(
+  //   `/api/auth/register`,
+  //   fetcher,
+  // );
+
+  const onSubmit = async (dataForm: {
     email: string;
     password: string;
     username: string;
   }) => {
-    console.log(dataForm);
+    try {
+      await axios.post("/api/auth/register", {
+        email: dataForm.email,
+        password: dataForm.password,
+        username: dataForm.username,
+      });
+
+      // Jika sukses (misal 200 atau 201)
+      toast({
+        title: "Success",
+        description: "User registered successfully!",
+        variant: "default",
+      });
+    } catch (error) {
+      if (axios.isAxiosError(error) && error.response) {
+        if (error.response.status === 400) {
+          toast({
+            title: "Error",
+            description: error.response.data.body,
+            variant: "destructive",
+          });
+        } else {
+          toast({
+            title: "Error",
+            description: `Error ${error.response.status}: ${error.response.data.message || "Something went wrong!"}`,
+            variant: "destructive",
+          });
+        }
+      } else {
+        toast({
+          title: "Error",
+          description: "An unexpected error occurred!",
+          variant: "destructive",
+        });
+      }
+    }
   };
 
   return (
