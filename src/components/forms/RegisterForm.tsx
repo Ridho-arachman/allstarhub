@@ -11,20 +11,17 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { useLoginForm } from "@/hooks/auth/useLoginForm";
-import { useToast } from "@/hooks/use-toast";
+import { useRegisterForm } from "@/hooks/auth/useRegisterForm";
 
-export function LoginForm() {
-  const { toast } = useToast();
-  const form = useLoginForm();
+export function RegisterForm() {
+  const form = useRegisterForm();
 
-  const onSubmit = (values: { email: string; password: string }) => {
-    console.log(values);
-    toast({
-      title: "Login",
-      description: "Loading...",
-      duration: 5000,
-    });
+  const onSubmit = (dataForm: {
+    email: string;
+    password: string;
+    username: string;
+  }) => {
+    console.log(dataForm);
   };
 
   return (
@@ -34,6 +31,24 @@ export function LoginForm() {
         noValidate
         className="space-y-4"
       >
+        <FormField
+          control={form.control}
+          name="username"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Username</FormLabel>
+              <FormControl>
+                <Input
+                  {...field}
+                  type="text"
+                  placeholder="Masukkan username"
+                  required
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
         <FormField
           control={form.control}
           name="email"
@@ -75,7 +90,7 @@ export function LoginForm() {
           )}
         />
         <Button type="submit" className="w-full">
-          Login
+          Register
         </Button>
       </form>
     </Form>
