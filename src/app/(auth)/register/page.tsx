@@ -1,4 +1,3 @@
-import { RegisterForm } from "@/components/forms/RegisterForm";
 import {
   Card,
   CardContent,
@@ -18,9 +17,7 @@ const page = () => {
         <CardHeader>
           <h2 className="text-center text-3xl font-bold">Register</h2>
         </CardHeader>
-        <CardContent>
-          <RegisterForm />
-        </CardContent>
+        <CardContent></CardContent>
         <CardFooter className="text-center text-sm text-gray-500">
           <p className="text-base font-medium">
             Sudah punya akun?{" "}

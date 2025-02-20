@@ -4,10 +4,11 @@ import {
   CardFooter,
   CardHeader,
 } from "@/components/ui/card";
-import { LoginForm } from "@/components/forms/LoginForm";
+// import { signIn } from "next-auth/react";
 import Link from "next/link";
-import { SignIn } from "@/components/auth/signin-button";
 import Image from "next/image";
+// import { Button } from "@/components/ui/button";
+import SignButton from "@/components/SignButton";
 
 export default function LoginPage() {
   return (
@@ -20,16 +21,9 @@ export default function LoginPage() {
           <h2 className="text-center text-3xl font-bold">Login</h2>
         </CardHeader>
         <CardContent className="flex flex-col gap-5">
-          <LoginForm />
+          <SignButton />
           <hr className="w-full border-black" />
-          <div className="grid grid-cols-2 gap-2">
-            <SignIn provider="github" classname="w-full">
-              Github
-            </SignIn>
-            <SignIn provider="google" classname="w-full">
-              Google
-            </SignIn>
-          </div>
+          <div className="grid grid-cols-2 gap-2"></div>
         </CardContent>
         <CardFooter className="text-center text-sm text-gray-500">
           <p className="text-base font-medium">
