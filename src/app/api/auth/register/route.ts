@@ -1,77 +1,48 @@
-import { createUser } from "@/db/user";
-import { hashPassword } from "@/lib/password";
-import { Prisma } from "@prisma/client";
+import {} from "@/components/regist-form";
+import { prisma } from "@/lib/prisma";
+import { formRegister } from "@/validation/formregister";
+import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
 import { NextRequest, NextResponse } from "next/server";
+import { ZodError } from "zod";
 
-// Tipe untuk body request
-interface RegisterRequestBody {
-  username: string;
-  email: string;
-  password: string;
-}
+// interface RegisterRequestBody {
+//   username: string;
+//   email: string;
+//   password: string;
+// }
 
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-    const { username, email, password } = body as RegisterRequestBody;
+    const { email, username, password } = await formRegister.parse(body);
 
-    // Validasi input
-    if (!email || !password || !username) {
-      return NextResponse.json(
-        {
-          message: "Bad request",
-          error: "Pastikan semua field terisi",
-        },
-        { status: 400 },
-      );
-    }
-
-    if (
-      email.trim() === "" ||
-      password.trim() === "" ||
-      username.trim() === ""
-    ) {
-      return NextResponse.json(
-        {
-          message: "Bad request",
-          error: "Jangan mengisi dengan spasi semua",
-        },
-        { status: 400 },
-      );
-    }
-
-    // Hash password (tambahkan await jika hashPassword asinkronus)
-    const hashedPassword = await hashPassword({ password }); // Asumsi asinkronus
-    await createUser({ email, password: hashedPassword, username });
+    const user = await prisma.user.create({
+      data: {
+        email,
+        username,
+        password,
+      },
+    });
 
     return NextResponse.json(
-      {
-        message: "success",
-        data: { username },
-      },
+      { message: `User ${user.username} created successfully`, status: 201 },
       { status: 201 },
     );
-  } catch (error: unknown) {
-    if (error instanceof Prisma.PrismaClientKnownRequestError) {
-      if (error.code === "P2002") {
+  } catch (err) {
+    if (err instanceof ZodError) {
+      return NextResponse.json(
+        { error: err.issues, status: 400 },
+        { status: 400 },
+      );
+    } else if (err instanceof PrismaClientKnownRequestError) {
+      if (err.code === "P2002") {
         return NextResponse.json(
-          {
-            message: "Bad request",
-            error:
-              "Username atau email sudah terdaftar. Silakan coba yang lain.",
-          },
+          { error: "User sudah ada", status: 400 },
           { status: 400 },
         );
       }
+    } else {
+      return NextResponse.json({ error: err, status: 500 }, { status: 500 });
     }
-    // Penanganan error default
-    return NextResponse.json(
-      {
-        message: "Internal server error",
-        error:
-          error instanceof Error ? error.message : "Terjadi kesalahan server",
-      },
-      { status: 500 },
-    );
   }
 }
