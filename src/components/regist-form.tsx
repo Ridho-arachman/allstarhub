@@ -9,7 +9,7 @@ import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
 import { registerUser } from "@/lib/fetcher/register";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { formRegister } from "@/validation/formregister";
+import { formRegister } from "@/validation/schemaRegister";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -29,12 +29,15 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { toast } from "@/hooks/use-toast";
+import { Eye, SquareAsterisk } from "lucide-react";
+import { useState } from "react";
 
 export function RegisterForm({
   className,
   ...props
 }: React.ComponentPropsWithoutRef<"div">) {
   const router = useRouter();
+  const [see, setSee] = useState<boolean>(false);
 
   const { trigger, isMutating } = useSWRMutation(
     "/api/auth/register",
@@ -50,7 +53,6 @@ export function RegisterForm({
     },
   });
 
-  // Fungsi untuk menangani submit
   async function onSubmit(formData: z.infer<typeof formRegister>) {
     try {
       const res = await trigger(formData);
@@ -83,7 +85,11 @@ export function RegisterForm({
         </CardHeader>
         <CardContent>
           <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="grid gap-6">
+            <form
+              onSubmit={form.handleSubmit(onSubmit)}
+              className="grid gap-6"
+              noValidate
+            >
               <FormField
                 control={form.control}
                 name="username"
@@ -91,7 +97,11 @@ export function RegisterForm({
                   <FormItem>
                     <FormLabel>Username</FormLabel>
                     <FormControl>
-                      <Input placeholder="Masukkan username" {...field} />
+                      <Input
+                        autoComplete="username webauthn"
+                        placeholder="Masukkan username"
+                        {...field}
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -105,6 +115,7 @@ export function RegisterForm({
                     <FormLabel>Email</FormLabel>
                     <FormControl>
                       <Input
+                        autoComplete="email"
                         type="email"
                         placeholder="m@example.com"
                         {...field}
@@ -119,14 +130,25 @@ export function RegisterForm({
                 name="password"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Email</FormLabel>
-                    <FormControl>
-                      <Input
-                        type="password"
-                        placeholder="m@example.com"
-                        {...field}
-                      />
-                    </FormControl>
+                    <FormLabel>Password</FormLabel>
+                    <div className="flex gap-2">
+                      <FormControl>
+                        <Input
+                          autoComplete="current-password"
+                          type={see ? "text" : "password"}
+                          placeholder="abC12@"
+                          {...field}
+                        />
+                      </FormControl>
+                      <Button
+                        variant="outline"
+                        type="button"
+                        onMouseDown={() => setSee(true)}
+                        onMouseUp={() => setSee(false)}
+                      >
+                        {see ? <Eye /> : <SquareAsterisk />}
+                      </Button>
+                    </div>
                     <FormMessage />
                   </FormItem>
                 )}

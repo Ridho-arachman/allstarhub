@@ -1,4 +1,5 @@
-// import { signIn } from "next-auth/react";
+"use client";
+import { signIn } from "next-auth/react";
 
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
@@ -10,22 +11,75 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Github } from "lucide-react";
+import { Eye, Github, SquareAsterisk } from "lucide-react";
 import SignButton from "./signin-button";
 import Link from "next/link";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "./ui/form";
+import { schemaLogin } from "@/validation/schemaLogin";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+import { useState } from "react";
+import { toast } from "@/hooks/use-toast";
+import { useRouter } from "next/navigation";
 
 export function LoginForm({
   className,
   ...props
 }: React.ComponentPropsWithoutRef<"div">) {
+  const [see, setSee] = useState<boolean>(false);
+  const router = useRouter();
+  const form = useForm<z.infer<typeof schemaLogin>>({
+    resolver: zodResolver(schemaLogin),
+    defaultValues: {
+      email: "",
+      password: "",
+    },
+  });
+  async function onSubmit(values: z.infer<typeof schemaLogin>) {
+    try {
+      const res = await signIn("credentials", {
+        email: values.email,
+        password: values.password,
+        redirect: false,
+      });
+      if (res?.error) {
+        toast({
+          title: "Gagal Login",
+          description: "Username atau Password salah",
+          variant: "destructive",
+          duration: 5000,
+        });
+      } else if (res?.ok) {
+        toast({
+          title: "Berhasil Login",
+          duration: 5000,
+        });
+        router.push("/user");
+      }
+    } catch (err) {
+      const msg = err as Error;
+      toast({
+        title: `${msg}`,
+        variant: "destructive",
+        duration: 5000,
+      });
+    }
+  }
   return (
     <div className={cn("flex flex-col gap-6", className)} {...props}>
       <Card>
         <CardHeader className="text-center">
-          <CardTitle className="text-xl">Welcome back</CardTitle>
+          <CardTitle className="text-xl">Selamat Datang</CardTitle>
           <CardDescription>
-            Login with your Github or Google account
+            Login dengan Github atau Google account
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -33,7 +87,7 @@ export function LoginForm({
             <div className="flex flex-col gap-4">
               <SignButton provider="github">
                 <Github size={50} />
-                Login with Github
+                Login dengan Github
               </SignButton>
               <SignButton provider="google">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
@@ -42,36 +96,73 @@ export function LoginForm({
                     fill="currentColor"
                   />
                 </svg>
-                Login with Google
+                Login dengan Google
               </SignButton>
             </div>
             <div className="relative text-center text-sm after:absolute after:inset-0 after:top-1/2 after:z-0 after:flex after:items-center after:border-t after:border-border">
               <span className="relative z-10 bg-background px-2 text-muted-foreground">
-                Or continue with
+                Atau lanjutkan dengan
               </span>
             </div>
-            <form className="grid gap-6">
-              <div className="grid gap-2">
-                <Label htmlFor="email">Email</Label>
-                <Input
-                  id="email"
-                  type="email"
-                  placeholder="m@example.com"
-                  required
+            <Form {...form}>
+              <form
+                onSubmit={form.handleSubmit(onSubmit)}
+                className="grid gap-6"
+                noValidate
+              >
+                <FormField
+                  control={form.control}
+                  name="email"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Email</FormLabel>
+                      <FormControl>
+                        <Input
+                          autoComplete="email"
+                          type="email"
+                          placeholder="m@example.com"
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
                 />
-              </div>
-              <div className="grid gap-2">
-                <div className="flex items-center">
-                  <Label htmlFor="password">Password</Label>
-                </div>
-                <Input id="password" type="password" required />
-              </div>
-              <Button type="submit" className="w-full">
-                Login
-              </Button>
-            </form>
+                <FormField
+                  control={form.control}
+                  name="password"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Password</FormLabel>
+                      <div className="flex gap-2">
+                        <FormControl>
+                          <Input
+                            autoComplete="current-password"
+                            type={see ? "text" : "password"}
+                            placeholder="abC12@"
+                            {...field}
+                          />
+                        </FormControl>
+                        <Button
+                          variant="outline"
+                          type="button"
+                          onMouseDown={() => setSee(true)}
+                          onMouseUp={() => setSee(false)}
+                        >
+                          {see ? <Eye /> : <SquareAsterisk />}
+                        </Button>
+                      </div>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <Button type="submit" className="w-full">
+                  Register
+                </Button>
+              </form>
+            </Form>
             <div className="text-center text-sm">
-              Don&apos;t have an account?{" "}
+              Belum punya akun?{" "}
               <Link href="/register" className="underline underline-offset-4">
                 Sign up
               </Link>

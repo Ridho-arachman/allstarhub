@@ -1,26 +1,21 @@
-import {} from "@/components/regist-form";
+import { hashPassword } from "@/lib/hash";
 import { prisma } from "@/lib/prisma";
-import { formRegister } from "@/validation/formregister";
+import { formRegister } from "@/validation/schemaRegister";
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
 import { NextRequest, NextResponse } from "next/server";
 import { ZodError } from "zod";
-
-// interface RegisterRequestBody {
-//   username: string;
-//   email: string;
-//   password: string;
-// }
 
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
     const { email, username, password } = await formRegister.parse(body);
+    const hashedPassword = await hashPassword(password);
 
     const user = await prisma.user.create({
       data: {
         email,
         username,
-        password,
+        password: hashedPassword,
       },
     });
 

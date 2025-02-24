@@ -1,16 +1,7 @@
 import { z } from "zod";
 
-export const formRegister = z.object({
-  username: z
-    .string()
-    .trim()
-    .min(3, {
-      message: "Username harus minimal 3 karakter",
-    })
-    .max(50, {
-      message: "Username maksimal 50 karakter",
-    }),
-  email: z.string().email({
+export const schemaLogin = z.object({
+  email: z.string().trim().email({
     message: "Email tidak valid",
   }),
   password: z
