@@ -81,7 +81,20 @@ body {
   }
   p,
   input::placeholder,
-  button {
+  button,
+  a,
+  ul,
+  ol,
+  li {
     @apply font-mono;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
   }
 }

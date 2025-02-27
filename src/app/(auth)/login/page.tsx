@@ -1,6 +1,12 @@
 import Link from "next/link";
 import Image from "next/image";
+import { Metadata } from "next";
 import { LoginForm } from "@/components/login-form";
+
+export const metadata: Metadata = {
+  title: "AllStarHub | Login",
+  description: "kkk",
+};
 
 export default function LoginPage() {
   return (

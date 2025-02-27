@@ -62,7 +62,7 @@ export function LoginForm({
           title: "Berhasil Login",
           duration: 5000,
         });
-        router.push("/user");
+        router.push("/");
       }
     } catch (err) {
       const msg = err as Error;
@@ -148,6 +148,8 @@ export function LoginForm({
                           type="button"
                           onMouseDown={() => setSee(true)}
                           onMouseUp={() => setSee(false)}
+                          onTouchEnd={() => setSee(false)}
+                          onTouchStart={() => setSee(true)}
                         >
                           {see ? <Eye /> : <SquareAsterisk />}
                         </Button>
