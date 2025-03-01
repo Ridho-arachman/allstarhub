@@ -30,6 +30,25 @@ const Moon = dynamic(() => import("lucide-react").then((mod) => mod.Moon), {
   ssr: false,
 });
 
+const link = [
+  {
+    name: "HomePage",
+    href: "/",
+  },
+  {
+    name: "About Us",
+    href: "/about",
+  },
+  {
+    name: "Contact Us",
+    href: "/contact",
+  },
+  {
+    name: "More Options",
+    href: "",
+  },
+];
+
 export default function Navbar() {
   const router = useRouter();
   const { theme, setTheme } = useTheme();
@@ -39,29 +58,26 @@ export default function Navbar() {
   };
 
   return (
-    <header className="fixed left-0 right-0 top-0 border-b bg-background">
+    <header className="fixed left-0 right-0 top-0 z-10 border-b bg-background shadow-inner">
       <div className="container mx-auto flex items-center justify-between px-6 py-4">
         <Link href="/" className="text-xl font-bold">
           AllStarHub
         </Link>
+
         <NavigationMenu className="hidden md:block">
           <NavigationMenuList className="flex items-center space-x-4">
-            <NavigationMenuItem>
-              <NavigationMenuLink asChild>
-                <Link href="/dashboard" className={cn("hover:underline")}>
-                  Dashboard
-                </Link>
-              </NavigationMenuLink>
-            </NavigationMenuItem>
-            <NavigationMenuItem>
-              <NavigationMenuLink asChild>
-                <Link href="/about" className={cn("hover:underline")}>
-                  About
-                </Link>
-              </NavigationMenuLink>
-            </NavigationMenuItem>
+            {link.map((item, index) => (
+              <NavigationMenuItem key={index}>
+                <NavigationMenuLink asChild>
+                  <Link href={item.href} className="hover:underline">
+                    {item.name}
+                  </Link>
+                </NavigationMenuLink>
+              </NavigationMenuItem>
+            ))}
           </NavigationMenuList>
         </NavigationMenu>
+
         <div className="flex items-center gap-4">
           <Button variant="outline" size="sm" onClick={handleDarkMode}>
             {theme === "light" ? <Moon /> : <Sun />}

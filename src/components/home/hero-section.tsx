@@ -38,18 +38,17 @@ const HeroSection = () => {
               />
               <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 bg-black/50 p-8 text-white md:p-0">
                 <h1 className="text-4xl font-bold">
-                  Selamat datang di AllStarHub
-                  <br /> pusat informasi NBA!
+                  Welcome to AllStarHub <br /> Your Ultimate Sports Companion
                 </h1>
                 <p className="mt-2 text-lg">
-                  AllStarHub adalah platform terbaik untuk mendapatkan berita,
-                  statistik, dan analisis terkini tentang NBA.
-                  <br className="hidden md:inline" /> Bergabunglah dengan
-                  komunitas penggemar dan nikmati pengalaman basket yang tak
-                  tertandingi.
+                  AllStarHub brings you the latest in sports stats, player
+                  updates, and game insights, all in one easy-to-navigate app.{" "}
+                  <br className="hidden md:inline" />
+                  Experience a modern and intuitive interface designed for
+                  sports enthusiasts who want to stay ahead of the game.
                 </p>
                 <Button variant="default" className="text-white">
-                  Daftar
+                  Sign-Up
                 </Button>
               </div>
             </CarouselItem>
