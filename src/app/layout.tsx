@@ -1,6 +1,6 @@
 import { ThemeProvider } from "@/components/theme-provider";
+
 import "./globals.css";
-import Navbar from "@/components/ui/navbar";
 import { Toaster } from "@/components/ui/toaster";
 import { Bebas_Neue, Rajdhani } from "next/font/google";
 
@@ -34,10 +34,7 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <main>
-            <Navbar />
-            {children}
-          </main>
+          <main>{children}</main>
           <Toaster />
         </ThemeProvider>
       </body>
