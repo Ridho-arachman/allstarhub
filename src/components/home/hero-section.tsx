@@ -10,10 +10,12 @@ import {
   CarouselItem,
 } from "@/components/ui/carousel";
 import { Button } from "@/components/ui/button";
+import { useRouter } from "next/navigation";
 
 const images = ["/hero1.webp", "/hero2.webp"];
 
 const HeroSection = () => {
+  const router = useRouter();
   const autoplayPlugin = useRef(
     Autoplay({ delay: 7000, stopOnInteraction: false }),
   );
@@ -47,7 +49,11 @@ const HeroSection = () => {
                   Experience a modern and intuitive interface designed for
                   sports enthusiasts who want to stay ahead of the game.
                 </p>
-                <Button variant="default" className="text-white">
+                <Button
+                  onClick={() => router.push("/register")}
+                  variant="default"
+                  className="hidden text-white md:block"
+                >
                   Sign-Up
                 </Button>
               </div>

@@ -2,6 +2,8 @@ import { Metadata } from "next";
 
 import HeroSection from "@/components/home/hero-section";
 import FiturListSection from "@/components/home/fitur-list-section";
+import CtaSection from "@/components/home/cta-section";
+import TestimonialSection from "@/components/home/testimonial-section";
 
 export const metadata: Metadata = {
   title: "AllStarHub | Home",
@@ -13,6 +15,8 @@ export default function Home() {
     <>
       <HeroSection />
       <FiturListSection />
+      <CtaSection />
+      <TestimonialSection />
     </>
   );
 }

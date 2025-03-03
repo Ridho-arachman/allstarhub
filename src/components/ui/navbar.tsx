@@ -2,7 +2,6 @@
 
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { cn } from "@/lib/utils";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -32,7 +31,7 @@ const Moon = dynamic(() => import("lucide-react").then((mod) => mod.Moon), {
 
 const link = [
   {
-    name: "HomePage",
+    name: "Home Page",
     href: "/",
   },
   {
@@ -92,26 +91,18 @@ export default function Navbar() {
               <SheetHeader>
                 <SheetTitle>Menu</SheetTitle>
               </SheetHeader>
-              <div className="">
+              <div>
                 <NavigationMenu>
                   <NavigationMenuList className="flex flex-col space-y-4">
-                    <NavigationMenuItem>
-                      <NavigationMenuLink asChild>
-                        <Link
-                          href="/dashboard"
-                          className={cn("hover:underline")}
-                        >
-                          Dashboard
-                        </Link>
-                      </NavigationMenuLink>
-                    </NavigationMenuItem>
-                    <NavigationMenuItem>
-                      <NavigationMenuLink asChild>
-                        <Link href="/about" className={cn("hover:underline")}>
-                          About
-                        </Link>
-                      </NavigationMenuLink>
-                    </NavigationMenuItem>
+                    {link.map((item, index) => (
+                      <NavigationMenuItem key={index}>
+                        <NavigationMenuLink asChild>
+                          <Link href={item.href} className="hover:underline">
+                            {item.name}
+                          </Link>
+                        </NavigationMenuLink>
+                      </NavigationMenuItem>
+                    ))}
                   </NavigationMenuList>
                 </NavigationMenu>
               </div>
