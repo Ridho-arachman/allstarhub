@@ -16,7 +16,7 @@ const CtaSection = () => {
         </Button>
       </div>
       <Image
-        src={"/hero1.webp"}
+        src={"/images/home/hero1.webp"}
         alt="hero"
         width={400}
         height={500}

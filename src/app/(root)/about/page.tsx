@@ -1,3 +1,7 @@
+import HeroSection from "@/components/about/hero-section";
+import IntroSection from "@/components/about/intro-section";
+import MissionSection from "@/components/about/mission-section";
+import TeamSection from "@/components/about/team-section";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -6,7 +10,14 @@ export const metadata: Metadata = {
 };
 
 const page = () => {
-  return <>page</>;
+  return (
+    <>
+      <HeroSection />
+      <IntroSection />
+      <MissionSection />
+      <TeamSection />
+    </>
+  );
 };
 
 export default page;

@@ -16,19 +16,19 @@ const testimonials = [
     sentence: `"This platform has revolutionized the way we analyze game data, providing invaluable real-time insights for teams and fans. A true game-changer in the industry!"`,
     name: "MUHAMMAD RIDHO ARACHMAN",
     position: "CEO",
-    avatar: "/hero1.webp",
+    avatar: "/images/home/hero1.webp",
   },
   {
     sentence: `"AllStarHub transformed the way our team analyzes player performance. The insights we gain are invaluable for our strategy!"`,
     name: "John Doe",
     position: "Team Leader",
-    avatar: "/hero2.webp",
+    avatar: "/images/home/hero2.webp",
   },
   {
     sentence: `"As a basketball enthusiast, AllStarHub has been a game-changer. The real-time data and player insights are a game-changer!"`,
     name: "Jane Smith",
     position: "Coach",
-    avatar: "/hero3.webp",
+    avatar: "/images/home/hero3.webp",
   },
 ];
 
@@ -61,7 +61,7 @@ const TestimonialSection = () => {
                   <p className="text-xs text-gray-500">{item.position}</p>
                 </div>
                 <Image
-                  src="/logo.png"
+                  src="/images/logo/logo.png"
                   alt="Company Logo"
                   width={50}
                   height={50}

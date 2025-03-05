@@ -12,7 +12,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
 
-const images = ["/hero1.webp", "/hero2.webp"];
+const images = ["/images/home/hero1.webp", "/images/home/hero2.webp"];
 
 const HeroSection = () => {
   const router = useRouter();
