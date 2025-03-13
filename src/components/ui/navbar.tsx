@@ -57,7 +57,7 @@ export default function Navbar() {
   };
 
   return (
-    <header className="fixed left-0 right-0 top-0 z-10 border-b bg-background shadow-inner">
+    <header className="fixed left-0 right-0 top-0 z-20 border-b bg-background shadow-inner">
       <div className="container mx-auto flex items-center justify-between px-6 py-4">
         <Link href="/" className="text-xl font-bold">
           AllStarHub

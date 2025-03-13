@@ -62,7 +62,7 @@ const TeamSection = () => {
 
         <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 md:grid-cols-4">
           {teamMembers.map((member, index) => (
-            <Card key={index} className="overflow-hidden text-center">
+            <Card key={index} className="overflow-hidden text-center shadow-xl">
               <div className="relative h-64 w-full overflow-hidden">
                 <Image
                   src={member.image}
